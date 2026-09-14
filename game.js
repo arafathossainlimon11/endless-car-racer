@@ -273,16 +273,19 @@ class CarRacingGame {
 
     renderCarPreview() {
         const previewCanvas = document.getElementById('carPreviewCanvas');
+        if (!previewCanvas) return;
         const pCtx = previewCanvas.getContext('2d');
         pCtx.clearRect(0, 0, previewCanvas.width, previewCanvas.height);
         
         const car = CAR_MODELS[this.selectedCarIndex];
-        this.drawCarShape(pCtx, previewCanvas.width / 2 - 22, previewCanvas.height / 2 - 375 + 300, 44, 75, car.color, true);
+        this.drawCarShape(pCtx, previewCanvas.width / 2 - 22, previewCanvas.height / 2 - 37.5, 44, 75, car.color, true);
     }
 
     showScreen(screenId) {
-        document.querySelectorAll('.ui-screen').forEach(s => s.classList.remove('active'));
-        document.querySelectorAll('.ui-screen').forEach(s => s.classList.add('hidden'));
+        document.querySelectorAll('.ui-screen').forEach(s => {
+            s.classList.remove('active');
+            s.classList.add('hidden');
+        });
         
         const target = document.getElementById(screenId);
         if (target) {
@@ -318,7 +321,10 @@ class CarRacingGame {
         this.coinsList = [];
         this.particles = [];
 
-        document.querySelectorAll('.ui-screen').forEach(s => s.classList.add('hidden'));
+        document.querySelectorAll('.ui-screen').forEach(s => {
+            s.classList.remove('active');
+            s.classList.add('hidden');
+        });
         document.getElementById('hud').classList.remove('hidden');
     }
 
@@ -331,6 +337,7 @@ class CarRacingGame {
         } else if (this.state === 'PAUSED') {
             this.state = 'PLAYING';
             soundManager.playEngine();
+            document.getElementById('screen-pause').classList.remove('active');
             document.getElementById('screen-pause').classList.add('hidden');
         }
     }
@@ -571,7 +578,7 @@ class CarRacingGame {
             const shiftY = (y + (this.roadOffset % stripeHeight));
             this.ctx.fillStyle = Math.floor((y + this.roadOffset) / stripeHeight) % 2 === 0 ? '#ff0055' : '#ffffff';
             this.ctx.fillRect(this.roadX - curbWidth, shiftY, curbWidth, stripeHeight);
-            this.ctx.fillRect(this.roadX + this.roadWidth, shiftY, curbWidth, stripeHeight);
+            this.fillRectSafe(this.roadX + this.roadWidth, shiftY, curbWidth, stripeHeight);
         }
 
         // Lane Lines (Dashed White)
@@ -619,13 +626,17 @@ class CarRacingGame {
         // 6. Draw Particles
         for (let p of this.particles) {
             this.ctx.save();
-            this.ctx.globalAlpha = p.life;
+            this.ctx.globalAlpha = Math.max(0, p.life);
             this.ctx.fillStyle = p.color;
             this.ctx.beginPath();
             this.ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
             this.ctx.fill();
             this.ctx.restore();
         }
+    }
+
+    fillRectSafe(x, y, w, h) {
+        this.ctx.fillRect(x, y, w, h);
     }
 
     drawCarShape(ctx, x, y, w, h, color, isPlayer) {
@@ -639,13 +650,21 @@ class CarRacingGame {
         // Main Car Body
         ctx.fillStyle = color;
         ctx.beginPath();
-        ctx.roundRect(0, 0, w, h, [8, 8, 4, 4]);
+        if (ctx.roundRect) {
+            ctx.roundRect(0, 0, w, h, [8, 8, 4, 4]);
+        } else {
+            ctx.rect(0, 0, w, h);
+        }
         ctx.fill();
 
         // Roof / Cockpit Window
         ctx.fillStyle = '#111';
         ctx.beginPath();
-        ctx.roundRect(6, h * 0.25, w - 12, h * 0.4, 4);
+        if (ctx.roundRect) {
+            ctx.roundRect(6, h * 0.25, w - 12, h * 0.4, 4);
+        } else {
+            ctx.rect(6, h * 0.25, w - 12, h * 0.4);
+        }
         ctx.fill();
 
         // Windshield Light Glow
@@ -654,7 +673,7 @@ class CarRacingGame {
 
         // Headlights / Taillights
         if (isPlayer) {
-            // Front Headlights (Glowing Yellow/Cyan)
+            // Front Headlights
             ctx.fillStyle = '#00f0ff';
             ctx.shadowColor = '#00f0ff';
             ctx.shadowBlur = 10;

@@ -193,13 +193,13 @@ body {
     border-radius: 20px;
     font-family: 'Orbitron', sans-serif;
     font-size: 14px;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
 }
 
 .menu-buttons {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 12px;
     width: 80%;
     max-width: 280px;
 }
@@ -209,9 +209,9 @@ body {
 }
 
 .btn {
-    padding: 14px 20px;
+    padding: 13px 18px;
     font-family: 'Orbitron', sans-serif;
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 700;
     border: none;
     border-radius: 8px;
@@ -219,6 +219,7 @@ body {
     letter-spacing: 1px;
     transition: all 0.2s ease;
     text-align: center;
+    text-decoration: none;
 }
 
 .btn-primary {
@@ -247,8 +248,26 @@ body {
     color: #fff;
 }
 
-.audio-toggle-container {
+/* Smartlink Reward Button (Home Screen Red Box Area) */
+.btn-reward {
     margin-top: 25px;
+    width: 85%;
+    max-width: 300px;
+    background: linear-gradient(135deg, #ff0055, #ffaa00);
+    color: #fff;
+    border: 1px solid #ffd700;
+    box-shadow: 0 0 15px rgba(255, 0, 85, 0.5);
+    animation: pulseGlow 1.8s infinite ease-in-out;
+}
+
+@keyframes pulseGlow {
+    0% { transform: scale(1); box-shadow: 0 0 12px rgba(255, 0, 85, 0.4); }
+    50% { transform: scale(1.03); box-shadow: 0 0 22px rgba(255, 215, 0, 0.8); }
+    100% { transform: scale(1); box-shadow: 0 0 12px rgba(255, 0, 85, 0.4); }
+}
+
+.audio-toggle-container {
+    margin-top: 15px;
 }
 
 .btn-toggle {
@@ -355,8 +374,8 @@ body {
     width: 100%;
     background: rgba(20, 25, 40, 0.8);
     border-radius: 10px;
-    padding: 15px 5px;
-    margin: 15px 0;
+    padding: 12px 5px;
+    margin: 10px 0;
 }
 
 .result-item {
@@ -375,75 +394,78 @@ body {
 }
 
 .gameover-ad-container {
-    width: 100%;
-    height: 65px;
-    background: #10141e;
-    border: 1px dashed #ff0055;
+    width: 300px;
+    height: 250px;
+    background: rgba(16, 20, 30, 0.9);
+    border: 1px solid rgba(0, 240, 255, 0.3);
     border-radius: 8px;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 20px;
+    margin: 10px 0;
+    overflow: hidden;
 }
 
-/* --- MOBILE ON-SCREEN CONTROLS --- */
+/* --- 4-CORNER SPLIT MOBILE CONTROLS --- */
 #mobile-controls {
     position: absolute;
-    bottom: calc(25px + env(safe-area-inset-bottom, 0px));
+    bottom: calc(20px + env(safe-area-inset-bottom, 0px));
     left: 0;
     width: 100%;
-    padding: 0 12px;
+    padding: 0 10px;
     display: flex;
     justify-content: space-between;
     pointer-events: none;
     z-index: 15;
 }
 
-.touch-group {
+.control-col {
     display: flex;
-    gap: 8px;
+    flex-direction: column;
+    gap: 35px; /* Spacing between top & bottom buttons matching red boxes */
     pointer-events: auto;
+    align-items: center;
 }
 
 .touch-btn {
     width: 52px;
     height: 52px;
     border-radius: 50%;
-    background: rgba(10, 15, 25, 0.65);
-    border: 1.5px solid rgba(0, 240, 255, 0.6);
+    background: rgba(10, 15, 25, 0.75);
+    border: 2px solid rgba(0, 240, 255, 0.7);
     color: #fff;
-    font-size: 18px;
+    font-size: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
     backdrop-filter: blur(4px);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
 }
 
 .touch-btn:active {
-    background: rgba(0, 240, 255, 0.5);
+    background: rgba(0, 240, 255, 0.6);
     transform: scale(0.92);
 }
 
 .brake-btn, .boost-btn {
     width: auto;
-    height: 52px;
+    height: 48px;
     padding: 0 14px;
-    border-radius: 26px;
-    font-size: 12px;
+    border-radius: 24px;
+    font-size: 11px;
     font-weight: 700;
 }
 
 .brake-btn { 
-    border-color: rgba(255, 0, 85, 0.7); 
+    border-color: rgba(255, 0, 85, 0.8); 
     color: #ff0055;
-    background: rgba(25, 10, 18, 0.65);
+    background: rgba(25, 10, 18, 0.75);
 }
 
 .boost-btn { 
-    border-color: rgba(255, 215, 0, 0.7); 
+    border-color: rgba(255, 215, 0, 0.8); 
     color: #ffd700;
-    background: rgba(25, 22, 10, 0.65);
+    background: rgba(25, 22, 10, 0.75);
 }
 
 @media (min-width: 768px) {

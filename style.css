@@ -386,10 +386,10 @@ body {
     margin-bottom: 20px;
 }
 
-/* --- MOBILE ON-SCREEN CONTROLS --- */
+/* --- MOBILE ON-SCREEN CONTROLS (FIXED POSITIONING) --- */
 #mobile-controls {
     position: absolute;
-    bottom: 15px;
+    bottom: calc(40px + env(safe-area-inset-bottom, 0px)); /* নিচ থেকে ৪০ পিক্সেল ওপরে তোলা হয়েছে */
     left: 0;
     width: 100%;
     padding: 0 15px;
@@ -406,34 +406,43 @@ body {
 }
 
 .touch-btn {
-    width: 55px;
-    height: 55px;
+    width: 56px;
+    height: 56px;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.15);
-    border: 2px solid rgba(255, 255, 255, 0.4);
+    background: rgba(15, 20, 32, 0.75);
+    border: 2px solid rgba(0, 240, 255, 0.6);
     color: #fff;
     font-size: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
-    backdrop-filter: blur(4px);
+    backdrop-filter: blur(6px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
 }
 
 .touch-btn:active {
     background: rgba(0, 240, 255, 0.5);
-    transform: scale(0.95);
+    transform: scale(0.92);
 }
 
 .brake-btn, .boost-btn {
     width: auto;
-    padding: 0 15px;
-    border-radius: 25px;
-    font-size: 12px;
+    height: 56px;
+    padding: 0 16px;
+    border-radius: 28px;
+    font-size: 13px;
     font-weight: 700;
 }
 
-.brake-btn { border-color: #ff0055; }
-.boost-btn { border-color: #ffd700; }
+.brake-btn { 
+    border-color: #ff0055; 
+    color: #ff0055;
+}
+
+.boost-btn { 
+    border-color: #ffd700; 
+    color: #ffd700;
+}
 
 @media (min-width: 768px) {
     #mobile-controls {

@@ -195,7 +195,8 @@ class CarRacingGame {
         this.roadX = (this.width - this.roadWidth) / 2;
         this.laneWidth = this.roadWidth / this.lanes;
 
-        this.player.y = this.height - 150;
+        // Adjust Player Y so it stays cleanly above the elevated touch buttons
+        this.player.y = this.height - 195;
         if (this.state !== 'PLAYING') {
             this.player.x = this.roadX + (this.roadWidth / 2) - (this.player.width / 2);
         }
@@ -309,7 +310,7 @@ class CarRacingGame {
         this.player.boostMeter = 100;
         
         this.player.x = this.roadX + (this.roadWidth / 2) - (this.player.width / 2);
-        this.player.y = this.height - 150;
+        this.player.y = this.height - 195;
 
         this.traffics = [];
         this.coinsList = [];
@@ -519,7 +520,7 @@ class CarRacingGame {
             rect1.x + margin < rect2.x + rect2.width - margin &&
             rect1.x + rect1.width - margin > rect2.x + margin &&
             rect1.y + margin < rect2.y + rect2.height - margin &&
-            rect1.y + margin < rect2.y + rect2.height - margin
+            rect1.y + rect1.height - margin > rect2.y + margin
         );
     }
 

@@ -281,122 +281,7 @@ body {
     cursor: pointer;
 }
 
-/* --- CAR GARAGE SCREEN --- */
-.car-selector-container {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    margin: 20px 0;
-}
-
-.nav-arrow {
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid #00f0ff;
-    color: #00f0ff;
-    font-size: 24px;
-    width: 45px;
-    height: 45px;
-    border-radius: 50%;
-    cursor: pointer;
-}
-
-.car-card {
-    background: rgba(20, 25, 35, 0.9);
-    border: 1px solid rgba(0, 240, 255, 0.3);
-    border-radius: 12px;
-    padding: 15px;
-    width: 200px;
-    text-align: center;
-}
-
-#car-preview-canvas-container {
-    height: 180px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.car-stats {
-    margin-top: 15px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-.stat-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 12px;
-}
-
-.stat-bar {
-    width: 100px;
-    height: 6px;
-    background: #222;
-    border-radius: 3px;
-    overflow: hidden;
-}
-
-.stat-fill {
-    height: 100%;
-    background: #00f0ff;
-    width: 50%;
-}
-
-/* --- INSTRUCTIONS & GAME OVER --- */
-.instructions-content {
-    background: rgba(15, 20, 30, 0.8);
-    border-radius: 10px;
-    padding: 15px;
-    margin-bottom: 20px;
-    max-height: 300px;
-    overflow-y: auto;
-    font-size: 14px;
-    line-height: 1.6;
-}
-
-.control-guide {
-    margin-bottom: 12px;
-}
-
-.control-guide h3 {
-    color: #00f0ff;
-    margin-bottom: 4px;
-}
-
-.game-over-text {
-    color: #ff0055;
-    text-shadow: 0 0 20px #ff0055;
-}
-
-.results-board {
-    display: flex;
-    justify-content: space-around;
-    width: 100%;
-    background: rgba(20, 25, 40, 0.8);
-    border-radius: 10px;
-    padding: 12px 5px;
-    margin: 10px 0;
-}
-
-.result-item {
-    text-align: center;
-}
-
-.result-item span {
-    font-size: 10px;
-    color: #888;
-}
-
-.result-item h3 {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 18px;
-    margin-top: 4px;
-}
-
-/* Home & Gameover 300x250 Ad Container */
+/* Home & Gameover Ad Container */
 .home-ad-container, .gameover-ad-container {
     width: 300px;
     height: 250px;
@@ -409,6 +294,111 @@ body {
     margin: 8px 0;
     overflow: hidden;
     flex-shrink: 0;
+}
+
+/* --- AUTOMATIC MOBILE FRAME AD MODAL STYLES --- */
+#ad-video-modal {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    animation: fadeInModal 0.4s ease;
+}
+
+@keyframes fadeInModal {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+.mobile-phone-frame {
+    width: 310px;
+    height: 460px;
+    background: #121620;
+    border: 3px solid #00f0ff;
+    border-radius: 28px;
+    box-shadow: 0 0 30px rgba(0, 240, 255, 0.6);
+    padding: 10px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.mobile-speaker {
+    width: 50px;
+    height: 4px;
+    background: #333;
+    border-radius: 2px;
+    margin-bottom: 8px;
+}
+
+.mobile-screen-content {
+    width: 100%;
+    height: 100%;
+    background: #080b12;
+    border-radius: 18px;
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.ad-modal-header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.ad-badge {
+    font-size: 10px;
+    font-family: 'Orbitron', sans-serif;
+    color: #ffd700;
+    background: rgba(255, 215, 0, 0.15);
+    padding: 2px 8px;
+    border-radius: 10px;
+}
+
+.close-ad-btn {
+    background: #ff0055;
+    color: #fff;
+    border: none;
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.mobile-ad-body {
+    width: 100%;
+    height: 260px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.mobile-ad-click-btn {
+    width: 90%;
+    padding: 10px;
+    background: linear-gradient(135deg, #00f0ff, #0077ff);
+    color: #000;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 20px;
+    font-size: 12px;
+    font-family: 'Orbitron', sans-serif;
+    box-shadow: 0 0 10px rgba(0, 240, 255, 0.6);
 }
 
 /* --- MOBILE ON-SCREEN CONTROLS --- */

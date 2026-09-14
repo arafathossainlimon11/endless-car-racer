@@ -1,0 +1,442 @@
+/* --- RESET & GLOBAL STYLES --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+}
+
+body {
+    background-color: #060709;
+    font-family: 'Rajdhani', sans-serif;
+    color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 100vh;
+    overflow: hidden;
+}
+
+/* --- ADVERTISEMENT STYLING --- */
+.ad-banner {
+    width: 100%;
+    max-width: 480px;
+    height: 60px;
+    background: #12151e;
+    border: 1px dashed #00f0ff;
+    border-radius: 8px;
+    margin: 8px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+}
+
+.ad-placeholder-text {
+    font-size: 13px;
+    color: #00f0ff;
+    letter-spacing: 1px;
+    font-family: 'Orbitron', sans-serif;
+    opacity: 0.8;
+}
+
+/* --- GAME WRAPPER & CANVAS --- */
+#game-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 480px;
+    height: calc(100vh - 80px);
+    max-height: 800px;
+    background: #000;
+    box-shadow: 0 0 30px rgba(0, 240, 255, 0.2);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+#gameCanvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+/* --- HUD OVERLAY --- */
+#hud {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 12px 15px;
+    pointer-events: none;
+    z-index: 10;
+}
+
+.hud-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.hud-box {
+    background: rgba(10, 14, 23, 0.85);
+    border: 1px solid rgba(0, 240, 255, 0.4);
+    padding: 6px 12px;
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    backdrop-filter: blur(4px);
+}
+
+.hud-label {
+    font-size: 10px;
+    color: #aaa;
+    font-family: 'Orbitron', sans-serif;
+}
+
+#score-display, #coin-display, #speed-display {
+    font-size: 18px;
+    font-weight: 700;
+    color: #fff;
+    font-family: 'Orbitron', sans-serif;
+}
+
+#coin-display { color: #ffd700; }
+#speed-display { color: #00f0ff; }
+
+.icon-btn {
+    pointer-events: auto;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid #fff;
+    color: #fff;
+    font-size: 16px;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.boost-container {
+    width: 100%;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    margin-top: 10px;
+    overflow: hidden;
+}
+
+#boost-bar {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, #ff0055, #ff9900);
+    transition: width 0.1s linear;
+}
+
+/* --- UI SCREENS & OVERLAYS --- */
+.ui-screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(8, 10, 15, 0.95);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    z-index: 20;
+    transition: opacity 0.3s ease;
+}
+
+.overlay-screen {
+    background: rgba(8, 10, 15, 0.85);
+    backdrop-filter: blur(6px);
+}
+
+.hidden {
+    display: none !important;
+}
+
+.active {
+    display: flex !important;
+}
+
+/* --- TITLES & BUTTONS --- */
+.game-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 42px;
+    font-weight: 900;
+    color: #fff;
+    text-shadow: 0 0 15px #00f0ff;
+    letter-spacing: 2px;
+}
+
+.game-title span {
+    color: #ff0055;
+    text-shadow: 0 0 15px #ff0055;
+}
+
+.game-subtitle {
+    font-size: 14px;
+    letter-spacing: 4px;
+    color: #aaa;
+    margin-bottom: 25px;
+}
+
+.high-score-badge {
+    background: rgba(255, 215, 0, 0.15);
+    border: 1px solid #ffd700;
+    color: #ffd700;
+    padding: 8px 18px;
+    border-radius: 20px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 14px;
+    margin-bottom: 30px;
+}
+
+.menu-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 80%;
+    max-width: 280px;
+}
+
+.menu-buttons.horizontal {
+    flex-direction: row;
+}
+
+.btn {
+    padding: 14px 20px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    letter-spacing: 1px;
+    transition: all 0.2s ease;
+    text-align: center;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #00f0ff, #0077ff);
+    color: #000;
+    box-shadow: 0 0 15px rgba(0, 240, 255, 0.4);
+}
+
+.btn-primary:hover, .btn-primary:active {
+    transform: scale(1.03);
+    box-shadow: 0 0 25px rgba(0, 240, 255, 0.8);
+}
+
+.btn-secondary {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.btn-secondary:hover, .btn-secondary:active {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.btn-danger {
+    background: linear-gradient(135deg, #ff0055, #990033);
+    color: #fff;
+}
+
+.audio-toggle-container {
+    margin-top: 25px;
+}
+
+.btn-toggle {
+    background: transparent;
+    border: none;
+    color: #888;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+/* --- CAR GARAGE SCREEN --- */
+.car-selector-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin: 20px 0;
+}
+
+.nav-arrow {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid #00f0ff;
+    color: #00f0ff;
+    font-size: 24px;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.car-card {
+    background: rgba(20, 25, 35, 0.9);
+    border: 1px solid rgba(0, 240, 255, 0.3);
+    border-radius: 12px;
+    padding: 15px;
+    width: 200px;
+    text-align: center;
+}
+
+#car-preview-canvas-container {
+    height: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.car-stats {
+    margin-top: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.stat-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+}
+
+.stat-bar {
+    width: 100px;
+    height: 6px;
+    background: #222;
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.stat-fill {
+    height: 100%;
+    background: #00f0ff;
+    width: 50%;
+}
+
+/* --- INSTRUCTIONS & GAME OVER --- */
+.instructions-content {
+    background: rgba(15, 20, 30, 0.8);
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 20px;
+    max-height: 300px;
+    overflow-y: auto;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.control-guide {
+    margin-bottom: 12px;
+}
+
+.control-guide h3 {
+    color: #00f0ff;
+    margin-bottom: 4px;
+}
+
+.game-over-text {
+    color: #ff0055;
+    text-shadow: 0 0 20px #ff0055;
+}
+
+.results-board {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    background: rgba(20, 25, 40, 0.8);
+    border-radius: 10px;
+    padding: 15px 5px;
+    margin: 15px 0;
+}
+
+.result-item {
+    text-align: center;
+}
+
+.result-item span {
+    font-size: 10px;
+    color: #888;
+}
+
+.result-item h3 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 18px;
+    margin-top: 4px;
+}
+
+.gameover-ad-container {
+    width: 100%;
+    height: 65px;
+    background: #10141e;
+    border: 1px dashed #ff0055;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+/* --- MOBILE ON-SCREEN CONTROLS --- */
+#mobile-controls {
+    position: absolute;
+    bottom: 15px;
+    left: 0;
+    width: 100%;
+    padding: 0 15px;
+    display: flex;
+    justify-content: space-between;
+    pointer-events: none;
+    z-index: 15;
+}
+
+.touch-group {
+    display: flex;
+    gap: 10px;
+    pointer-events: auto;
+}
+
+.touch-btn {
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.15);
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    color: #fff;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(4px);
+}
+
+.touch-btn:active {
+    background: rgba(0, 240, 255, 0.5);
+    transform: scale(0.95);
+}
+
+.brake-btn, .boost-btn {
+    width: auto;
+    padding: 0 15px;
+    border-radius: 25px;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.brake-btn { border-color: #ff0055; }
+.boost-btn { border-color: #ffd700; }
+
+@media (min-width: 768px) {
+    #mobile-controls {
+        display: none; /* Hide on Desktop */
+    }
+  }

@@ -132,8 +132,8 @@ class CarRacingGame {
         this.coins = 0;
         this.highScore = parseInt(localStorage.getItem('racing_highscore')) || 0;
         
-        this.state = 'MENU'; // MENU, GARAGE, PLAYING, PAUSED, GAMEOVER
-        this.firstHomeClickDone = false; // First-Click Popunder Trigger Flag
+        this.state = 'MENU'; 
+        this.firstHomeClickDone = false; 
         
         // Dynamic Dimensions
         this.width = 480;
@@ -209,10 +209,17 @@ class CarRacingGame {
             homeScreen.addEventListener('click', (e) => {
                 if (!this.firstHomeClickDone) {
                     this.firstHomeClickDone = true;
-                    // Triggers Popunder Ad on First Home Screen Touch
                     window.open('https://www.profitableratecpmnetwork.com/ddjf53i2?key=8e75e359968f0b2d232f8580aeb6b9c3', '_blank');
                 }
             });
+        }
+
+        // Close Mobile Frame Video Ad Modal
+        const closeAdBtn = document.getElementById('btn-close-ad');
+        if (closeAdBtn) {
+            closeAdBtn.onclick = () => {
+                document.getElementById('ad-video-modal').classList.add('hidden');
+            };
         }
 
         window.addEventListener('keydown', (e) => {
@@ -333,6 +340,7 @@ class CarRacingGame {
             s.classList.add('hidden');
         });
         document.getElementById('hud').classList.remove('hidden');
+        document.getElementById('ad-video-modal').classList.add('hidden');
     }
 
     togglePause() {
@@ -380,6 +388,12 @@ class CarRacingGame {
             document.getElementById('hud').classList.add('hidden');
             document.getElementById('screen-gameover').classList.remove('hidden');
             document.getElementById('screen-gameover').classList.add('active');
+            
+            // 🟢 AUTOMATICALLY TRIGGER MOBILE FRAME AD MODAL UPON GAME OVER 🟢
+            const adModal = document.getElementById('ad-video-modal');
+            if (adModal) {
+                adModal.classList.remove('hidden');
+            }
         }, 800);
     }
 

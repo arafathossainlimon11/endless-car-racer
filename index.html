@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Endless Car Racing Game</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Google Fonts for Gaming Aesthetic -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Top Advertisement Container -->
+    <div id="top-ad-container" class="ad-banner">
+        <div class="ad-placeholder-text">Responsive Advertisement Space</div>
+    </div>
+
+    <!-- Main Game Wrapper -->
+    <div id="game-wrapper">
+        <canvas id="gameCanvas"></canvas>
+
+        <!-- Dynamic HUD Overlay -->
+        <div id="hud" class="hidden">
+            <div class="hud-top">
+                <div class="hud-box">
+                    <span class="hud-label">SCORE</span>
+                    <span id="score-display">0</span>
+                </div>
+                <div class="hud-box">
+                    <span class="hud-label">COINS</span>
+                    <span id="coin-display">🪙 0</span>
+                </div>
+                <div class="hud-box">
+                    <span class="hud-label">SPEED</span>
+                    <span id="speed-display">0 KM/H</span>
+                </div>
+                <button id="btn-pause" class="icon-btn">⏸️</button>
+            </div>
+            
+            <!-- Boost Gauge -->
+            <div class="boost-container">
+                <div id="boost-bar"></div>
+            </div>
+        </div>
+
+        <!-- UI Screen: Home Screen -->
+        <div id="screen-home" class="ui-screen active">
+            <h1 class="game-title">TURBO <span>RACE</span></h1>
+            <p class="game-subtitle">ULTIMATE HIGHWAY CHASE</p>
+            
+            <div class="high-score-badge">
+                🏆 HIGH SCORE: <span id="home-highscore">0</span>
+            </div>
+
+            <div class="menu-buttons">
+                <button id="btn-play" class="btn btn-primary">PLAY GAME</button>
+                <button id="btn-garage" class="btn btn-secondary">CAR GARAGE</button>
+                <button id="btn-howto" class="btn btn-secondary">HOW TO PLAY</button>
+            </div>
+
+            <div class="audio-toggle-container">
+                <button id="btn-sound-toggle" class="btn-toggle">🔊 Sound: ON</button>
+            </div>
+        </div>
+
+        <!-- UI Screen: Car Garage -->
+        <div id="screen-garage" class="ui-screen hidden">
+            <h2 class="screen-title">SELECT YOUR CAR</h2>
+            
+            <div class="car-selector-container">
+                <button id="btn-prev-car" class="nav-arrow">❮</button>
+                <div id="car-card" class="car-card">
+                    <div id="car-preview-canvas-container">
+                        <canvas id="carPreviewCanvas" width="120" height="200"></canvas>
+                    </div>
+                    <h3 id="car-name">RED LIGHTNING</h3>
+                    <div class="car-stats">
+                        <div class="stat-row">
+                            <span>Top Speed:</span>
+                            <div class="stat-bar"><div id="stat-speed" class="stat-fill"></div></div>
+                        </div>
+                        <div class="stat-row">
+                            <span>Handling:</span>
+                            <div class="stat-bar"><div id="stat-handling" class="stat-fill"></div></div>
+                        </div>
+                        <div class="stat-row">
+                            <span>Boost:</span>
+                            <div class="stat-bar"><div id="stat-boost" class="stat-fill"></div></div>
+                        </div>
+                    </div>
+                </div>
+                <button id="btn-next-car" class="nav-arrow">❯</button>
+            </div>
+
+            <button id="btn-select-car" class="btn btn-primary">SELECT & BACK</button>
+        </div>
+
+        <!-- UI Screen: Instructions -->
+        <div id="screen-howto" class="ui-screen hidden">
+            <h2 class="screen-title">HOW TO PLAY</h2>
+            <div class="instructions-content">
+                <div class="control-guide">
+                    <h3>💻 Desktop Controls:</h3>
+                    <p>⬅️ ➡️ / A, D : Move Left & Right</p>
+                    <p>⬆️ / W : Accelerate / Boost</p>
+                    <p>⬇️ / S : Brake / Slow Down</p>
+                    <p>P / ESC : Pause Game</p>
+                </div>
+                <div class="control-guide">
+                    <h3>📱 Mobile Controls:</h3>
+                    <p>Use the on-screen Touch Buttons at the bottom for steering, braking, and activating nitro boost.</p>
+                </div>
+                <div class="control-guide">
+                    <h3>🎯 Objectives:</h3>
+                    <p>Avoid oncoming traffic, collect golden coins, and survive as long as possible to reach the highest score!</p>
+                </div>
+            </div>
+            <button id="btn-back-howto" class="btn btn-secondary">BACK TO MENU</button>
+        </div>
+
+        <!-- UI Screen: Pause Menu -->
+        <div id="screen-pause" class="ui-screen hidden overlay-screen">
+            <h2 class="screen-title">GAME PAUSED</h2>
+            <div class="menu-buttons">
+                <button id="btn-resume" class="btn btn-primary">RESUME</button>
+                <button id="btn-restart-pause" class="btn btn-secondary">RESTART</button>
+                <button id="btn-home-pause" class="btn btn-danger">MAIN MENU</button>
+            </div>
+        </div>
+
+        <!-- UI Screen: Game Over -->
+        <div id="screen-gameover" class="ui-screen hidden overlay-screen">
+            <h2 class="screen-title game-over-text">CRASHED!</h2>
+            
+            <div class="results-board">
+                <div class="result-item">
+                    <span>FINAL SCORE</span>
+                    <h3 id="final-score">0</h3>
+                </div>
+                <div class="result-item">
+                    <span>COINS COLLECTED</span>
+                    <h3 id="final-coins">🪙 0</h3>
+                </div>
+                <div class="result-item">
+                    <span>BEST SCORE</span>
+                    <h3 id="final-highscore">0</h3>
+                </div>
+            </div>
+
+            <!-- Dedicated Game Over Ad Placeholder -->
+            <div class="gameover-ad-container">
+                <div class="ad-placeholder-text">Game Over Round Transition Ad Space</div>
+            </div>
+
+            <div class="menu-buttons horizontal">
+                <button id="btn-restart" class="btn btn-primary">RETRY</button>
+                <button id="btn-home-over" class="btn btn-secondary">MENU</button>
+            </div>
+        </div>
+
+        <!-- On-Screen Controls for Touch / Mobile -->
+        <div id="mobile-controls">
+            <div class="touch-group left-group">
+                <button id="btn-touch-left" class="touch-btn">◀</button>
+                <button id="btn-touch-right" class="touch-btn">▶</button>
+            </div>
+            <div class="touch-group right-group">
+                <button id="btn-touch-brake" class="touch-btn brake-btn">🛑 BRAKE</button>
+                <button id="btn-touch-boost" class="touch-btn boost-btn">⚡ BOOST</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="game.js"></script>
+</body>
+      </html>

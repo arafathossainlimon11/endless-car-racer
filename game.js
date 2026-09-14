@@ -133,6 +133,7 @@ class CarRacingGame {
         this.highScore = parseInt(localStorage.getItem('racing_highscore')) || 0;
         
         this.state = 'MENU'; // MENU, GARAGE, PLAYING, PAUSED, GAMEOVER
+        this.firstHomeClickDone = false; // First-Click Popunder Trigger Flag
         
         // Dynamic Dimensions
         this.width = 480;
@@ -195,7 +196,6 @@ class CarRacingGame {
         this.roadX = (this.width - this.roadWidth) / 2;
         this.laneWidth = this.roadWidth / this.lanes;
 
-        // Adjust Player Y so it stays cleanly above the elevated touch buttons
         this.player.y = this.height - 195;
         if (this.state !== 'PLAYING') {
             this.player.x = this.roadX + (this.roadWidth / 2) - (this.player.width / 2);
@@ -203,6 +203,18 @@ class CarRacingGame {
     }
 
     bindEvents() {
+        // First Click Popunder Handler on Home Screen
+        const homeScreen = document.getElementById('screen-home');
+        if (homeScreen) {
+            homeScreen.addEventListener('click', (e) => {
+                if (!this.firstHomeClickDone) {
+                    this.firstHomeClickDone = true;
+                    // Triggers Popunder Ad on First Home Screen Touch
+                    window.open('https://www.profitableratecpmnetwork.com/ddjf53i2?key=8e75e359968f0b2d232f8580aeb6b9c3', '_blank');
+                }
+            });
+        }
+
         window.addEventListener('keydown', (e) => {
             soundManager.init();
             if (e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'A') this.keys.left = true;
@@ -520,7 +532,7 @@ class CarRacingGame {
             rect1.x + margin < rect2.x + rect2.width - margin &&
             rect1.x + rect1.width - margin > rect2.x + margin &&
             rect1.y + margin < rect2.y + rect2.height - margin &&
-            rect1.y + rect1.height - margin > rect2.y + margin
+            rect1.y + margin < rect2.y + rect2.height - margin
         );
     }
 

@@ -145,7 +145,7 @@ class CarRacingGame {
         this.laneWidth = this.roadWidth / this.lanes;
         this.roadOffset = 0;
 
-        // Player Setup
+        // Player Setup (Positioned higher to avoid bottom touch buttons)
         this.player = {
             x: 0,
             y: 0,
@@ -154,7 +154,6 @@ class CarRacingGame {
             speed: 0,
             baseSpeed: 5,
             maxSpeed: 12,
-            targetX: 0,
             steerSpeed: 7,
             boosting: false,
             boostMeter: 100
@@ -178,10 +177,8 @@ class CarRacingGame {
         this.bindEvents();
         this.updateUI();
 
-        // Render Car Preview in Garage
         this.renderCarPreview();
 
-        // Start Loop
         this.lastTime = performance.now();
         requestAnimationFrame((t) => this.gameLoop(t));
     }
@@ -198,14 +195,14 @@ class CarRacingGame {
         this.roadX = (this.width - this.roadWidth) / 2;
         this.laneWidth = this.roadWidth / this.lanes;
 
+        // Keep Player Above Touch Buttons Area
+        this.player.y = this.height - 190;
         if (this.state !== 'PLAYING') {
             this.player.x = this.roadX + (this.roadWidth / 2) - (this.player.width / 2);
-            this.player.y = this.height - 120;
         }
     }
 
     bindEvents() {
-        // Keyboard Controls
         window.addEventListener('keydown', (e) => {
             soundManager.init();
             if (e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'A') this.keys.left = true;
@@ -222,7 +219,6 @@ class CarRacingGame {
             if (e.key === 'ArrowDown' || e.key === 's' || e.key === 'S') this.keys.down = false;
         });
 
-        // Touch Controls
         const bindTouch = (id, key) => {
             const btn = document.getElementById(id);
             if (!btn) return;
@@ -235,7 +231,6 @@ class CarRacingGame {
         bindTouch('btn-touch-boost', 'up');
         bindTouch('btn-touch-brake', 'down');
 
-        // UI Buttons
         document.getElementById('btn-play').onclick = () => this.startGame();
         document.getElementById('btn-garage').onclick = () => this.showScreen('screen-garage');
         document.getElementById('btn-howto').onclick = () => this.showScreen('screen-howto');
@@ -315,7 +310,7 @@ class CarRacingGame {
         this.player.boostMeter = 100;
         
         this.player.x = this.roadX + (this.roadWidth / 2) - (this.player.width / 2);
-        this.player.y = this.height - 130;
+        this.player.y = this.height - 190; // Car positioned clear off the touch buttons
 
         this.traffics = [];
         this.coinsList = [];
@@ -347,7 +342,6 @@ class CarRacingGame {
         soundManager.stopEngine();
         soundManager.playCrashSound();
 
-        // Create Explosion Particles
         for (let i = 0; i < 40; i++) {
             this.particles.push({
                 x: this.player.x + this.player.width / 2,
@@ -391,22 +385,18 @@ class CarRacingGame {
     update(dt) {
         if (this.state !== 'PLAYING') return;
 
-        // Player Controls & Movement
         if (this.keys.left) this.player.x -= this.player.steerSpeed;
         if (this.keys.right) this.player.x += this.player.steerSpeed;
 
-        // Keep Player Inside Road Limits
         const minX = this.roadX + 10;
         const maxX = this.roadX + this.roadWidth - this.player.width - 10;
         this.player.x = Math.max(minX, Math.min(maxX, this.player.x));
 
-        // Speed & Boosting
         if (this.keys.up && this.player.boostMeter > 0) {
             this.player.speed = this.player.baseSpeed * 1.6;
             this.player.boosting = true;
             this.player.boostMeter -= 25 * dt;
 
-            // Exhaust Particles
             this.particles.push({
                 x: this.player.x + this.player.width / 2 + (Math.random() * 10 - 5),
                 y: this.player.y + this.player.height,
@@ -425,45 +415,35 @@ class CarRacingGame {
             if (this.player.boostMeter < 100) this.player.boostMeter += 10 * dt;
         }
 
-        // Road Animation Speed
         this.roadOffset += this.player.speed * 3;
-
-        // Update Engine Sound Pitch
         soundManager.updateEngineSpeed(this.player.speed / this.player.baseSpeed);
 
-        // Spawn Traffic
         if (Math.random() < 0.025) {
             this.spawnTraffic();
         }
 
-        // Spawn Coins
         if (Math.random() < 0.02) {
             this.spawnCoin();
         }
 
-        // Update Traffics
         for (let i = this.traffics.length - 1; i >= 0; i--) {
             let t = this.traffics[i];
             t.y += (this.player.speed - t.speed);
 
-            // AABB Collision Detection
             if (this.checkCollision(this.player, t)) {
                 this.gameOver();
                 break;
             }
 
-            // Remove out of bounds traffic
             if (t.y > this.height + 100 || t.y < -300) {
                 this.traffics.splice(i, 1);
             }
         }
 
-        // Update Coins
         for (let i = this.coinsList.length - 1; i >= 0; i--) {
             let c = this.coinsList[i];
             c.y += this.player.speed;
 
-            // Collect Coin
             const dist = Math.hypot((this.player.x + this.player.width/2) - c.x, (this.player.y + this.player.height/2) - c.y);
             if (dist < 30) {
                 soundManager.playCoinSound();
@@ -471,7 +451,6 @@ class CarRacingGame {
                 this.coins += Math.round(1 * mult);
                 this.score += 50;
 
-                // Sparkle Effect
                 for(let p = 0; p < 8; p++) {
                     this.particles.push({
                         x: c.x, y: c.y,
@@ -489,7 +468,6 @@ class CarRacingGame {
             }
         }
 
-        // Update Particles
         for (let i = this.particles.length - 1; i >= 0; i--) {
             let p = this.particles[i];
             p.x += p.vx;
@@ -498,13 +476,9 @@ class CarRacingGame {
             if (p.life <= 0) this.particles.splice(i, 1);
         }
 
-        // Score Calculation
         this.score += this.player.speed * 0.1;
-
-        // Difficulty Progression
         this.player.baseSpeed += 0.0005;
 
-        // UI Update
         this.updateUI();
     }
 
@@ -512,7 +486,6 @@ class CarRacingGame {
         const laneIndex = Math.floor(Math.random() * this.lanes);
         const laneX = this.roadX + (laneIndex * this.laneWidth) + (this.laneWidth / 2) - 22;
         
-        // Prevent overlapping traffic on spawn
         for (let t of this.traffics) {
             if (Math.abs(t.x - laneX) < 10 && t.y < -50) return;
         }
@@ -542,7 +515,7 @@ class CarRacingGame {
     }
 
     checkCollision(rect1, rect2) {
-        const margin = 4; // Fair hitboxes
+        const margin = 4;
         return (
             rect1.x + margin < rect2.x + rect2.width - margin &&
             rect1.x + rect1.width - margin > rect2.x + margin &&
@@ -563,7 +536,7 @@ class CarRacingGame {
     render() {
         this.ctx.clearRect(0, 0, this.width, this.height);
 
-        // 1. Draw Environment (Grass / Road Side)
+        // 1. Draw Side Grass
         this.ctx.fillStyle = '#0b130e';
         this.ctx.fillRect(0, 0, this.width, this.height);
 
@@ -571,17 +544,17 @@ class CarRacingGame {
         this.ctx.fillStyle = '#1a1d24';
         this.ctx.fillRect(this.roadX, 0, this.roadWidth, this.height);
 
-        // Road Curb (Red & White Sides)
+        // Road Curb
         const curbWidth = 8;
         const stripeHeight = 30;
         for (let y = -stripeHeight; y < this.height + stripeHeight; y += stripeHeight) {
             const shiftY = (y + (this.roadOffset % stripeHeight));
             this.ctx.fillStyle = Math.floor((y + this.roadOffset) / stripeHeight) % 2 === 0 ? '#ff0055' : '#ffffff';
             this.ctx.fillRect(this.roadX - curbWidth, shiftY, curbWidth, stripeHeight);
-            this.fillRectSafe(this.roadX + this.roadWidth, shiftY, curbWidth, stripeHeight);
+            this.ctx.fillRect(this.roadX + this.roadWidth, shiftY, curbWidth, stripeHeight);
         }
 
-        // Lane Lines (Dashed White)
+        // Dashed Lane Lines
         this.ctx.strokeStyle = 'rgba(255, 255, 255, 0.4)';
         this.ctx.lineWidth = 4;
         this.ctx.setLineDash([20, 20]);
@@ -594,7 +567,7 @@ class CarRacingGame {
             this.ctx.lineTo(x, this.height);
             this.ctx.stroke();
         }
-        this.ctx.setLineDash([]); // Reset dash
+        this.ctx.setLineDash([]);
 
         // 3. Draw Coins
         for (let c of this.coinsList) {
@@ -635,19 +608,13 @@ class CarRacingGame {
         }
     }
 
-    fillRectSafe(x, y, w, h) {
-        this.ctx.fillRect(x, y, w, h);
-    }
-
     drawCarShape(ctx, x, y, w, h, color, isPlayer) {
         ctx.save();
         ctx.translate(x, y);
 
-        // Car Body Shadow
         ctx.fillStyle = 'rgba(0, 0, 0, 0.4)';
         ctx.fillRect(2, 4, w, h);
 
-        // Main Car Body
         ctx.fillStyle = color;
         ctx.beginPath();
         if (ctx.roundRect) {
@@ -657,7 +624,6 @@ class CarRacingGame {
         }
         ctx.fill();
 
-        // Roof / Cockpit Window
         ctx.fillStyle = '#111';
         ctx.beginPath();
         if (ctx.roundRect) {
@@ -667,31 +633,25 @@ class CarRacingGame {
         }
         ctx.fill();
 
-        // Windshield Light Glow
         ctx.fillStyle = 'rgba(255, 255, 255, 0.2)';
         ctx.fillRect(8, h * 0.27, w - 16, h * 0.1);
 
-        // Headlights / Taillights
         if (isPlayer) {
-            // Front Headlights
             ctx.fillStyle = '#00f0ff';
             ctx.shadowColor = '#00f0ff';
             ctx.shadowBlur = 10;
             ctx.fillRect(4, 2, 8, 4);
             ctx.fillRect(w - 12, 2, 8, 4);
             
-            // Taillights
             ctx.fillStyle = '#ff0055';
             ctx.shadowColor = '#ff0055';
             ctx.fillRect(4, h - 4, 8, 3);
             ctx.fillRect(w - 12, h - 4, 8, 3);
         } else {
-            // Traffic Front Headlights
             ctx.fillStyle = '#ffff00';
             ctx.fillRect(4, h - 4, 8, 3);
             ctx.fillRect(w - 12, h - 4, 8, 3);
             
-            // Traffic Taillights
             ctx.fillStyle = '#ff0000';
             ctx.fillRect(4, 2, 8, 3);
             ctx.fillRect(w - 12, 2, 8, 3);
@@ -701,7 +661,6 @@ class CarRacingGame {
     }
 }
 
-// Instantiate Game on Load
 window.addEventListener('load', () => {
     new CarRacingGame();
 });

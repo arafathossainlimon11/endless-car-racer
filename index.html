@@ -7,6 +7,9 @@
     <link rel="stylesheet" href="style.css">
     <!-- Google Fonts for Gaming Aesthetic -->
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
+    
+    <!-- Adsterra Social Bar Script -->
+    <script src="https://pl31335768.profitableratecpmnetwork.com/c3/18/1d/c3181dee25b2251b5ae6d5e695073cfc.js"></script>
 </head>
 <body>
 
@@ -61,6 +64,11 @@
             <div class="audio-toggle-container">
                 <button id="btn-sound-toggle" class="btn-toggle">🔊 Sound: ON</button>
             </div>
+
+            <!-- Smartlink Ad Button (Positioned at bottom red box) -->
+            <a href="https://www.profitableratecpmnetwork.com/ddjf53i2?key=8e75e359968f0b2d232f8580aeb6b9c3" target="_blank" id="btn-smartlink" class="btn btn-reward">
+                🎁 CLAIM REWARD / BONUS
+            </a>
         </div>
 
         <!-- UI Screen: Car Garage -->
@@ -108,7 +116,7 @@
                 </div>
                 <div class="control-guide">
                     <h3>📱 Mobile Controls:</h3>
-                    <p>Use the on-screen Touch Buttons at the bottom for steering, braking, and activating nitro boost.</p>
+                    <p>Use the 4 corner touch buttons for Steering (Left/Right), Braking (Top Left), and Nitro Boost (Top Right).</p>
                 </div>
                 <div class="control-guide">
                     <h3>🎯 Objectives:</h3>
@@ -147,9 +155,18 @@
                 </div>
             </div>
 
-            <!-- Dedicated Game Over Ad Placeholder -->
+            <!-- Adsterra 300x250 Banner Ad Placement -->
             <div class="gameover-ad-container">
-                <div class="ad-placeholder-text">Game Over Round Transition Ad Space</div>
+                <script>
+                  atOptions = {
+                    'key' : 'fff00103355c34a1d13f1ea99f3c3b33',
+                    'format' : 'iframe',
+                    'height' : 250,
+                    'width' : 300,
+                    'params' : {}
+                  };
+                </script>
+                <script src="https://www.highrevenueformat.com/fff00103355c34a1d13f1ea99f3c3b33/invoke.js"></script>
             </div>
 
             <div class="menu-buttons horizontal">
@@ -158,19 +175,22 @@
             </div>
         </div>
 
-        <!-- On-Screen Controls for Touch / Mobile -->
+        <!-- 4-Corner Split On-Screen Mobile Controls -->
         <div id="mobile-controls">
-            <div class="touch-group left-group">
-                <button id="btn-touch-left" class="touch-btn">◀</button>
-                <button id="btn-touch-right" class="touch-btn">▶</button>
-            </div>
-            <div class="touch-group right-group">
+            <!-- Left Side Controls (Top: Brake, Bottom: Left Steer) -->
+            <div class="control-col left-col">
                 <button id="btn-touch-brake" class="touch-btn brake-btn">🛑 BRAKE</button>
+                <button id="btn-touch-left" class="touch-btn steer-btn">◀</button>
+            </div>
+
+            <!-- Right Side Controls (Top: Boost, Bottom: Right Steer) -->
+            <div class="control-col right-col">
                 <button id="btn-touch-boost" class="touch-btn boost-btn">⚡ BOOST</button>
+                <button id="btn-touch-right" class="touch-btn steer-btn">▶</button>
             </div>
         </div>
     </div>
 
     <script src="game.js"></script>
 </body>
-      </html>
+                        </html>

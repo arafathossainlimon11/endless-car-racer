@@ -146,9 +146,10 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 20px;
+    padding: 15px;
     z-index: 20;
     transition: opacity 0.3s ease;
+    overflow-y: auto;
 }
 
 .ui-screen.active {
@@ -167,11 +168,12 @@ body {
 /* --- TITLES & BUTTONS --- */
 .game-title {
     font-family: 'Orbitron', sans-serif;
-    font-size: 42px;
+    font-size: 32px;
     font-weight: 900;
     color: #fff;
     text-shadow: 0 0 15px #00f0ff;
     letter-spacing: 2px;
+    margin-top: 5px;
 }
 
 .game-title span {
@@ -180,27 +182,27 @@ body {
 }
 
 .game-subtitle {
-    font-size: 14px;
-    letter-spacing: 4px;
+    font-size: 12px;
+    letter-spacing: 3px;
     color: #aaa;
-    margin-bottom: 25px;
+    margin-bottom: 12px;
 }
 
 .high-score-badge {
     background: rgba(255, 215, 0, 0.15);
     border: 1px solid #ffd700;
     color: #ffd700;
-    padding: 8px 18px;
+    padding: 6px 16px;
     border-radius: 20px;
     font-family: 'Orbitron', sans-serif;
-    font-size: 14px;
-    margin-bottom: 20px;
+    font-size: 13px;
+    margin-bottom: 15px;
 }
 
 .menu-buttons {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 10px;
     width: 80%;
     max-width: 280px;
 }
@@ -210,9 +212,9 @@ body {
 }
 
 .btn {
-    padding: 13px 18px;
+    padding: 12px 16px;
     font-family: 'Orbitron', sans-serif;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 700;
     border: none;
     border-radius: 8px;
@@ -251,7 +253,7 @@ body {
 
 /* Smartlink Reward Button */
 .btn-reward {
-    margin-top: 25px;
+    margin-top: 15px;
     width: 85%;
     max-width: 300px;
     background: linear-gradient(135deg, #ff0055, #ffaa00);
@@ -268,14 +270,14 @@ body {
 }
 
 .audio-toggle-container {
-    margin-top: 15px;
+    margin-top: 10px;
 }
 
 .btn-toggle {
     background: transparent;
     border: none;
     color: #888;
-    font-size: 14px;
+    font-size: 13px;
     cursor: pointer;
 }
 
@@ -394,7 +396,8 @@ body {
     margin-top: 4px;
 }
 
-.gameover-ad-container {
+/* Home & Gameover 300x250 Ad Container */
+.home-ad-container, .gameover-ad-container {
     width: 300px;
     height: 250px;
     background: rgba(16, 20, 30, 0.9);
@@ -403,14 +406,15 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 10px 0;
+    margin: 8px 0;
     overflow: hidden;
+    flex-shrink: 0;
 }
 
-/* --- MOBILE ON-SCREEN CONTROLS (ELEVATED & CLEARLY VISIBLE) --- */
+/* --- MOBILE ON-SCREEN CONTROLS --- */
 #mobile-controls {
     position: absolute;
-    bottom: calc(55px + env(safe-area-inset-bottom, 0px)); /* Lifted up so bottom buttons don't cut off */
+    bottom: calc(55px + env(safe-area-inset-bottom, 0px));
     left: 0;
     width: 100%;
     padding: 0 12px;
@@ -423,7 +427,7 @@ body {
 .control-col {
     display: flex;
     flex-direction: column;
-    gap: 15px; /* Compact spacing between top & bottom buttons */
+    gap: 15px;
     pointer-events: auto;
     align-items: center;
 }
